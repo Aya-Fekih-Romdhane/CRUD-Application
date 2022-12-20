@@ -112,23 +112,24 @@ const [showPassword, setShowPassword] = React.useState(false);
         response.data.confpassword='';
         setUser(response.data);
     }
-
     const editUserDetails = async() => {
-        if (user.password.length !=0){
-            if( user.password == user.confpassword){
-                seterror(false);
-        const response = await editUser(id, user);
-            }else{
-                seterror(true);
-            }
-            if (user.test != user.oldpassword){
-            seterror2(true);
-            }else{
-              seterror2(false);
+      if (user.password.length !=0){
+        if(( user.password == user.confpassword )&&(user.test == user.oldpassword))
+        {
+              const response = await editUser(id, user);
               navigate('/all');
-            }       
-    }
+          }else{
+              seterror2(true);
+              seterror(true);
+          }
+          if (user.test != user.oldpassword){
+          seterror2(true);
+          }else{
+            seterror2(false);
+          }       
+  }
 }
+
     const onValueChange = (e) => {
         console.log(e.target.value);
         setUser({...user, [e.target.name]: e.target.value})
@@ -136,7 +137,7 @@ const [showPassword, setShowPassword] = React.useState(false);
 
     return (
         <Container injectFirst>
-            <Typography variant="h4">Edit Information</Typography>
+            <Typography color='#1C315E' variant="h4">Edit User's Informations</Typography>
             <FormControl>
                 <InputLabel htmlFor="my-input">First Name</InputLabel>
                 <Input onChange={(e) => onValueChange(e)} name='Firstname' value={Firstname} id="my-input" aria-describedby="my-helper-text" />
@@ -148,6 +149,7 @@ const [showPassword, setShowPassword] = React.useState(false);
             <FormControl>
              <FormLabel  id="my-input">Gender</FormLabel>
                 <RadioGroup
+                defaultValue='user.gender'
                     aria-labelledby="demo-customized-radios"
                        name="gender">
                         <FormControlLabel onChange={(e) => onValueChange(e)} id="my-input" name='gender' value="female" control={<BpRadio />} label="Female"  aria-describedby="my-helper-text" />
